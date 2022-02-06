@@ -1,0 +1,451 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.flash-txt{
+  color: #fdc51c;
+}
+
+.flash-bg{
+  background-color: #fdc51c !important;
+  color: black !important;
+}
+
+.w-40{
+  width: 40% !important;
+}
+
+.w-80{
+  width: 80% !important;
+}
+
+.c-pointer{
+  cursor: pointer;
+}
+
+.text-decor{
+  text-decoration: underline;
+}
+
+.text-decor-none{
+  text-decoration: none;
+}
+
+.modal{
+  background-color: rgba(0, 0, 0, 0.4);
+  animation-name: fadeIn;
+  animation-duration: .5s;
+}
+
+.border-light{
+  border-color: #bbb !important;
+}
+
+.border-style-none{
+  border-style: none !important;
+}
+
+.loader{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.dropdown-arrow{
+  transition: transform .5s ease;
+}
+
+.rotate{
+  animation-name: turn;
+  animation-duration: .5s;
+}
+
+.rotated{
+  transition: transform 1s ease;
+  transform: rotate(180deg);
+}
+
+.sidebar-dropdown{
+  animation-name: drop;
+  animation-duration: .5s;
+}
+
+.p-relative{
+  position: relative;
+}
+
+.more-opts{
+  z-index: 2000;
+  position: absolute;
+  right: 0;
+  top: 0;
+  animation-name: scaleUp;
+  animation-duration: .3s;
+}
+
+.admin-drpdwn{
+  z-index: 2000;
+  position: absolute;
+  right: 0;
+  top: 40px;
+  animation-name: scaleUp;
+  animation-duration: .3s;
+  width: 200px;
+}
+
+.view-btn{
+  width: 80px;
+}
+
+.transparent{
+  background-color: transparent;
+}
+
+
+/********************
+*checkbox and upload
+*********************/
+.upload-container{
+  display: block;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.upload-container ~ label {
+  margin-top: 135px;
+}
+
+.upload-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.upload-icon{
+  border: 2px dashed #ccc;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 120px;
+  width: 170px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.check-container{
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.check-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 3px;
+}
+
+/* On mouse-over, add a grey background color */
+.check-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.check-container input:checked ~ .checkmark {
+  background-color: #fdc51c;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.check-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.check-container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: 1px solid #000;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+/********************
+*AUTH
+********************/
+.auth-img{
+  width: 100%;
+  height: 100%;
+}
+
+.logo{
+  margin-bottom: 5rem;
+}
+
+.logo-txt{
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.form-group label{
+  font-weight: bold;
+}
+
+.input input{
+  border: none;
+}
+
+.form-control:focus, .btn:focus {
+  border-color: #fdc51c;
+  box-shadow: 0 0 0 0.25rem rgb(253 197 28 / 25%);
+}
+
+.input input:focus{
+  outline: none;
+}
+/* .input input:focus .input-container{
+  outline: 1px solid #fdc51c;
+} */
+
+
+.auth-side-img{
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+/********************
+*DASHBOARD
+********************/
+.dash-logo img{
+  width: 50px;
+  height: 50px;
+}
+
+ .active-sidebar{
+  background-color: #fdc51c;
+  border-radius: 5px;
+}
+
+.top-tab{
+  border-bottom: 3px solid #bbb;
+  color: #666;
+}
+
+.top-tab:hover{
+  color: #c5a648;
+}
+
+.active-top-tab{
+  border-bottom: 3px solid #fdc51c;
+  color: black;
+}
+
+
+.dash-main-content{
+  background-color: #FAFAFA;
+  min-height: 100vh;
+}
+
+.pull-up{
+  animation-name: pullup;
+  animation-duration: .5s;
+}
+
+.grey-bg{
+  background-color: #F7F6F3;
+}
+
+.table th{
+  padding: 1rem;
+}
+
+.dash-icon{
+  background-color: #fff6dd;
+}
+
+.dash-items{
+  border-radius: 1rem;
+}
+
+
+.driver-list{
+  height: 500px;
+  overflow-y: auto;
+}
+
+.online-status{
+  border-radius: 30px;
+}
+
+
+
+/********************
+*key frames
+********************/
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}
+
+@keyframes turn {
+  from {
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes drop {
+  from {
+    transform: translateY(-20px);
+  }
+  to{
+    transform: translateY(0);
+  }
+}
+
+@keyframes pullup {
+  from {
+    transform: translateY(20px);
+  }
+  to{
+    transform: translateY(0);
+  }
+}
+
+@keyframes pullrightout {
+  from {
+    transform: translateX(-50px);
+  }
+  to{
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+  }
+  to{
+    transform: scale(1, 1);
+  }
+}
+
+
+
+/********************
+*Media queries
+********************/
+/* big screens only */
+@media screen and (min-width: 768px) {
+  
+  .sidebar-inner{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    height: 100%;
+    width: 250px;
+    overflow-y: auto;
+    padding-bottom: 50px;
+    animation: pullrightout;
+    animation-duration: .5s;
+    z-index: 1;
+  }
+
+  .dash-main-content{
+    margin-left: 250px;
+  }
+
+}
+
+/* small screens only */
+@media screen and (max-width: 768px) {
+  .w-40{
+    width: 70% !important;
+  }
+
+  .sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    background-color: white;
+    z-index: 2000;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 100vh;
+    overflow-y: auto;
+    animation: pullrightout;
+    animation-duration: .5s;
+  }
+
+  .w-md-100{
+    width: 100% !important;
+  }
+
+  .w-md-70{
+    width: 70% !important;
+  }
+
+  .orderr-1{
+    order: 1;
+  }
+
+  .orderr-2{
+    order: 2;
+  }
+
+}

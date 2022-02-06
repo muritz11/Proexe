@@ -1,11 +1,22 @@
-//import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import EditUser from "./components/EditUser";
+import NewUser from "./components/NewUser";
 
 
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <main className="p-5">
+      <Router>
+        <h1>Dashboard</h1>
+        <Switch>
+          <Route exact path='/' component={Dashboard} />
+          <Route path='/home' component={Dashboard} />
+          <Route path='/new-user' component={NewUser} />
+          <Route path='/edit-user/:uid' component={EditUser} />
+        </Switch>
+      </Router>
+    </main>
   );
 }
 
