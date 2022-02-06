@@ -1,10 +1,30 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import axios from "axios";
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { setUsers } from "../../redux/actions/userActions";
 
 const UserList = () => {
 
     const users = useSelector((state) => state.allUsers.users)
     const [ deleteModal, setDeleteModal ] = useState(false)
+    const dispatch = useDispatch()
+
+    const fetchUsers = async () => {
+        const resp = await axios.get("http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data").catch((err) => {
+            console.log("Fetch err:", err);
+        })
+        dispatch(setUsers(resp.data));
+    }
+
+    useEffect(() => {
+        
+      fetchUsers()
+    
+    }, []);
+    
 
     const deleteModalHandler = () => {
         setDeleteModal(!deleteModal)
@@ -20,7 +40,7 @@ const UserList = () => {
     }
 
     const renderList = users.map((user, index) => {
-        const { id, name, email, username, city } = user
+        const { id, name, email, username, address } = user
 
         return (
             <tr key={index} className="p-relative">
@@ -28,9 +48,9 @@ const UserList = () => {
                 <td>{name}</td>
                 <td>{username}</td>
                 <td>{email}</td>
-                <td>{city}</td>
+                <td>{address.city}</td>
                 <td>
-                    <a href={"/edit-user/"+id} className="btn btn-warning text-white"> Edit</a>
+                    <Link to={"/edit-user/"+id} className="btn btn-warning text-white"> Edit</Link>
                 </td>
                 <td onClick={deleteModalHandler}>
                     <button className="btn btn-danger">Delete</button>
@@ -65,15 +85,17 @@ const UserList = () => {
 
             <div className="table-responsive m-2 card pb-5">
                 <table className="table text-center">
-                    <tr className="grey-bg">
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>City</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
+                    <thead>
+                        <tr className="grey-bg">
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>City</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
                     <tbody className="bg-white">
                         {renderList}
                     </tbody>

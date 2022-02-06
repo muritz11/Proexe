@@ -1,54 +1,28 @@
+import { UsersActionTypes } from "../constants/users-action-types";
 
 const initialState = {
-    users: [
-        {
-            id: 1,
-            name: "John Smith",
-            username: "johnsmith",
-            email: "john@smith.com",
-            city: "NYC"
-        },
-        {
-            id: 2,
-            name: "Jane Smith",
-            username: "janesmith",
-            email: "jane@smith.com",
-            city: "NYC"
-        },
-        {
-            id: 3,
-            name: "John Smith",
-            username: "johnsmith",
-            email: "john@smith.com",
-            city: "NYC"
-        },
-        {
-            id: 4,
-            name: "John Smith",
-            username: "johnsmith",
-            email: "john@smith.com",
-            city: "NYC"
-        },
-    ]
+    users: []
 }
 
 export const userReducer = (state = initialState, {type, payload}) => {
     switch (type) {
-        //TODO ?? [update, del user]
-        // case "SET_STATUS":
-        //     return state.users[0].status = payload;
+        case UsersActionTypes.SET_USERS:
+            return { ...state, users: payload }
     
         default:
             return state;
     }
 }
 
-// export const loggedUserReducer = (state={}, {type, payload}) => {
-//     switch (type) {
-//         case "LOGGED_USER":
-//             return payload
+export const selectedUserReducer = (state={}, {type, payload}) => {
+    switch (type) {
+        case UsersActionTypes.SELECTED_USER:
+            return { ...state, ...payload }
     
-//         default:
-//             return state
-//     }
-// }
+        case UsersActionTypes.REMOVE_SELECTED_USER:
+            return {}
+    
+        default:
+            return state
+    }
+}
