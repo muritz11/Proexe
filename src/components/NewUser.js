@@ -3,13 +3,15 @@ import React from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { setSuccessMsg } from '../redux/actions/successAction';
-import { setUsers } from '../redux/actions/userActions';
+import { addUser } from '../redux/actions/userActions';
 
 const NewUser = () => {
 
     const [formErr, setFormErr] = useState({})
+    // const users = useSelector((state) => state.allUsers.users)
     const successMsg  = useSelector((state) => state.successMsg)
     const dispatch = useDispatch()
     const [formData, setFormData] = useState({
@@ -33,6 +35,15 @@ const NewUser = () => {
             axios.post(url, formData)
             .then((resp) => {
                 if (resp.data) {
+                    const newUser = {
+                        id: resp.data.id,
+                        name: resp.data.name,
+                        email: resp.data.email,
+                        username: '',
+                        address: {city: ''},
+                    }
+                    dispatch(addUser(newUser))
+                    // localStorage.setItem('users', JSON.stringify(users))
                     dispatch(setSuccessMsg('User Created'))
                 }
             }, (err) => {
@@ -86,7 +97,7 @@ const NewUser = () => {
                     </div>
                 </div>
                 <div className='text-end'>
-                    <button className='btn btn-outline-secondary me-3'>Cancel</button>
+                    <Link to='/home' className='btn btn-outline-secondary me-3'>Cancel</Link>
                     <button className='btn btn-success'>Submit</button>
                 </div>
             </form>

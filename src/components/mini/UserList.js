@@ -1,30 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import axios from "axios";
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setUsers } from "../../redux/actions/userActions";
+
 
 const UserList = () => {
 
     const users = useSelector((state) => state.allUsers.users)
     const [ deleteModal, setDeleteModal ] = useState(false)
-    const dispatch = useDispatch()
-
-    const fetchUsers = async () => {
-        const resp = await axios.get("http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data").catch((err) => {
-            console.log("Fetch err:", err);
-        })
-        dispatch(setUsers(resp.data));
-    }
-
-    useEffect(() => {
-        
-      fetchUsers()
-    
-    }, []);
-    
 
     const deleteModalHandler = () => {
         setDeleteModal(!deleteModal)

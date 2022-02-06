@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 const EditUser = () => {
 
     const user = useSelector((state) => state.selectedUser)
+    const users = useSelector((state) => state.allUsers.users)
     const { uid } = useParams()
     const dispatch = useDispatch()
     const [name, setName] = useState('')
@@ -17,10 +18,18 @@ const EditUser = () => {
     const [city, setCity] = useState('')
 
     const fetchUser = async () => {
-        const resp = await axios.get(`http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${uid}`).catch((err) => {
-            console.log("Fetch err:", err);
+        // const resp = await axios.get(`http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${uid}`).then((resp) => {
+        //     if (resp.data) {
+        //         dispatch(selectUser(resp.data));
+        //     }
+        // }, (err) => {
+        //     console.log("Fetch err:", err);
+        // })
+        const filUser = users.filter((val) => {
+            return val.id === uid
         })
-        dispatch(selectUser(resp.data));
+        console.log(filUser);
+        dispatch(selectUser(filUser))
     }
 
     useEffect(() => {
@@ -40,7 +49,7 @@ const EditUser = () => {
             :
             <section className='mt-4 card'>
                 <div className="p-2 pb-1">
-                    <h3>Edit Form: {user.username}</h3>
+                    <h3>Edit Form: {user.name}</h3>
                 </div>
                 <hr />
                 <form action="" className='ms-5 me-2

@@ -7,6 +7,13 @@ export const setUsers = (users) => {
     }
 }
 
+export const addUser = (user) => {
+    return {
+        type: UsersActionTypes.ADD_USER,
+        payload: user
+    }
+}
+
 
 export const selectUser = (user) => {
     return {
