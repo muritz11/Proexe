@@ -127,6 +127,7 @@ const EditUser = () => {
 
                         </div>
                     </div>
+                    
                     <div className='text-end'>
                         <Link to='/home' className='btn btn-outline-secondary me-3'>Cancel</Link>
                         <button className='btn btn-success'>
