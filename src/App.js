@@ -22,9 +22,9 @@ function App() {
     dispatch(setUsers(resp.data));
   }
 
-useEffect(() => {
-    fetchUsers()
-}, []);
+  useEffect(() => {
+      fetchUsers()
+  }, []);
 
 
   useEffect(() => {
@@ -34,7 +34,7 @@ useEffect(() => {
   }, [successMsg, dispatch])
 
   return (
-    <main className="p-5">
+    <main className="p-md-5 p-4 py-5">
       <Router>
         <h1>Dashboard</h1>
         { successMsg ? <div className="alert alert-success">{successMsg}</div> : '' }

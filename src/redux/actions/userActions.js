@@ -29,6 +29,13 @@ export const selectUser = (user) => {
     }
 }
 
+export const deleteUser = (index) => {
+    return {
+        type: UsersActionTypes.DELETE_USER,
+        payload: index
+    }
+}
+
 export const removeSelectedUser = () => {
     return {
         type: UsersActionTypes.REMOVE_SELECTED_USER

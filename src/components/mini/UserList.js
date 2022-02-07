@@ -1,18 +1,37 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../redux/actions/userActions';
+import { deleteUser, selectUser } from '../../redux/actions/userActions';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 const UserList = () => {
 
     const users = useSelector((state) => state.allUsers.users)
+    const selUser = useSelector((state) => state.selectedUser)
     const [ deleteModal, setDeleteModal ] = useState(false)
+    const [processing, setProcessing] = useState(false);
     const dispatch = useDispatch()
 
     const deleteModalHandler = () => {
         setDeleteModal(!deleteModal)
+    }
+
+    const delUser = () => {
+        setProcessing(true)
+        axios.delete(`http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${selUser.id}`)
+            .then((resp) => {
+                console.log(resp);
+                if (resp.status === 200) {
+                    dispatch(deleteUser(selUser.id-1))
+                    setProcessing(false)
+                    deleteModalHandler()
+                }
+            }, (err) => {
+                setProcessing(false)
+                console.log("Delete Error:", err);
+            })
     }
 
     window.onclick = function(event) {
@@ -37,8 +56,8 @@ const UserList = () => {
                 <td onClick={() => {dispatch(selectUser(user))}}>
                     <Link to={"/edit-user/"+id} className="btn btn-warning text-white"> Edit</Link>
                 </td>
-                <td onClick={deleteModalHandler}>
-                    <button className="btn btn-danger">Delete</button>
+                <td onClick={() => {dispatch(selectUser(user))}}>
+                    <button onClick={deleteModalHandler} className="btn btn-danger">Delete</button>
                 </td>
             </tr>
         )
@@ -61,7 +80,9 @@ const UserList = () => {
                         <hr className='my-1' />
                         <div className="p-3 text-end">
                             <button type="button" className="btn btn-secondary me-3" onClick={deleteModalHandler}>CANCEL</button>
-                            <button type="button" className="btn btn-danger w-25">DELETE</button>
+                            <button type="button" className="btn btn-danger w-25" onClick={delUser}>
+                                { processing ? <span className="spinner-border spinner-grow-sm"></span> : 'DELETE' }
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -69,7 +90,7 @@ const UserList = () => {
             : '' }
 
             {/* table */}
-            <div className="table-responsive m-2 card pb-5">
+            <div className="table-responsive shadow m-2 mx-3 card pb-5">
                 <table className="table text-center">
                     <thead>
                         <tr className="grey-bg">
