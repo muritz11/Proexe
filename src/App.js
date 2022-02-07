@@ -7,24 +7,36 @@ import EditUser from "./components/EditUser";
 import NewUser from "./components/NewUser";
 import { setUsers } from "./redux/actions/userActions";
 import axios from "axios";
-import { setSuccessMsg } from "./redux/actions/successAction";
+import { setErrMsg, setSuccessMsg } from "./redux/actions/successAction";
 
 
 function App() {
 
   const successMsg = useSelector((state) => state.successMsg)
   const dispatch = useDispatch()
+  const errMsg = useSelector((state) => state.errMsg)
 
-  const fetchUsers = async () => {
-    const resp = await axios.get("https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data").catch((err) => {
-        console.log("Fetch err:", err);
-    })
-    dispatch(setUsers(resp.data));
-  }
+  // const fetchUsers = async () => {
+  //   const resp = await 
+  // }
 
   useEffect(() => {
-      fetchUsers()
-  }, []);
+    axios.get("https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data")
+      .then((resp) => {
+        if (resp.status === 200) {
+          dispatch(setUsers(resp.data));
+        } else {
+          dispatch(setErrMsg('Sorry, an error occured.'))
+        }
+      })
+      .catch((err) => {
+        console.log("Fetch err:", err);
+        dispatch(setErrMsg('Sorry, an error occured. Could not fetch users'))
+        setTimeout(() => {
+          dispatch(setErrMsg(''))
+        }, 5000);
+      })
+  }, [dispatch]);
 
 
   useEffect(() => {
@@ -38,6 +50,7 @@ function App() {
       <Router>
         <h1>Dashboard</h1>
         { successMsg ? <div className="alert alert-success">{successMsg}</div> : '' }
+        { errMsg && <div className="alert alert-danger">{errMsg}</div> }
         <Switch>
           <Route exact path='/' component={Dashboard} />
           <Route path='/home' component={Dashboard} />

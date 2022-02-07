@@ -6,3 +6,10 @@ export const setSuccessMsg = (data) => {
         payload: data
     }
 }
+
+export const setErrMsg = (data) => {
+    return {
+        type: SuccessMsgTypes.SET_ERR_MSG,
+        payload: data
+    }
+}

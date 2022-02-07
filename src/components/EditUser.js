@@ -6,11 +6,12 @@ import { useParams, Link } from 'react-router-dom';
 import { removeSelectedUser, updateUser } from '../redux/actions/userActions';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { setSuccessMsg } from '../redux/actions/successAction';
+import { setErrMsg, setSuccessMsg } from '../redux/actions/successAction';
 
 const EditUser = () => {
 
     const user = useSelector((state) => state.selectedUser)
+    const errMsg = useSelector((state) => state.errMsg)
     const { uid } = useParams()
     const dispatch = useDispatch()
     const [name, setName] = useState('')
@@ -42,7 +43,6 @@ const EditUser = () => {
             axios.put(url, {name: name, username: userName, email: email, address: {city: city}})
                 .then((resp) => {
                     if (resp.data) {
-                        console.log(resp.data);
                         dispatch(updateUser({index: uid-1, data: resp.data}))
                         dispatch(setSuccessMsg('User updated successfully'))
                         setProcessing(false)
@@ -50,6 +50,9 @@ const EditUser = () => {
                     }
                 }, (err) => {
                     console.log(err);
+                    dispatch(setErrMsg('Sorry, an error occured'))
+                    dispatch(setErrMsg(''))
+                    setProcessing(false)
                 })
         }
     }
@@ -82,6 +85,7 @@ const EditUser = () => {
             <div>Loading...</div>
             :
             <section className='mt-4 card'>
+                { errMsg && <div className="alert alert-danger">{errMsg}</div> }
                 <div className="p-2 pb-1">
                     <h3>Edit Form: {user.name}</h3>
                 </div>
@@ -93,7 +97,7 @@ const EditUser = () => {
                             <label htmlFor="name">Name</label>
                         </div>
                         <div className="col-8">
-                            <input type="text" id='name' className='form-control' value={name} onChange={(e) => {setName(e.target.value)}} />
+                            <input type="text" id='name' className={formErr.name ? 'form-control border-danger' : 'form-control'} value={name} onChange={(e) => {setName(e.target.value)}} />
                             <p className='text-danger'>{ formErr.name }</p>
 
                         </div>
@@ -103,7 +107,7 @@ const EditUser = () => {
                             <label htmlFor="username">Username</label>
                         </div>
                         <div className="col-8">
-                            <input type="text" id='username' className='form-control' value={userName} onChange={(e) => {setUserName(e.target.value)}} />
+                            <input type="text" id='username' className={formErr.username ? 'form-control border-danger' : 'form-control'} value={userName} onChange={(e) => {setUserName(e.target.value)}} />
                             <p className='text-danger'>{ formErr.username }</p>
 
                         </div>
@@ -113,7 +117,7 @@ const EditUser = () => {
                             <label htmlFor="email">Email</label>
                         </div>
                         <div className="col-8">
-                            <input type="email" id='email' className='form-control' value={email} onChange={(e) => {setEmail(e.target.value)}} />
+                            <input type="email" id='email' className={formErr.email ? 'form-control border-danger' : 'form-control'} value={email} onChange={(e) => {setEmail(e.target.value)}} />
                             <p className='text-danger'>{ formErr.email }</p>
 
                         </div>

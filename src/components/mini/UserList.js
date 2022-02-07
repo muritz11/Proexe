@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { deleteUser, selectUser } from '../../redux/actions/userActions';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { setErrMsg } from '../../redux/actions/successAction';
 
 
 const UserList = () => {
@@ -22,7 +23,6 @@ const UserList = () => {
         setProcessing(true)
         axios.delete(`https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${selUser.id}`)
             .then((resp) => {
-                console.log(resp);
                 if (resp.status === 200) {
                     dispatch(deleteUser(selUser.id-1))
                     setProcessing(false)
@@ -30,6 +30,8 @@ const UserList = () => {
                 }
             }, (err) => {
                 setProcessing(false)
+                dispatch(setErrMsg('Sorry, an error occured'))
+                dispatch(setErrMsg(''))
                 console.log("Delete Error:", err);
             })
     }

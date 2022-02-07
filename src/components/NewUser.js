@@ -3,13 +3,15 @@ import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setSuccessMsg } from '../redux/actions/successAction';
+import { setErrMsg, setSuccessMsg } from '../redux/actions/successAction';
 import { addUser } from '../redux/actions/userActions';
 import { useHistory } from "react-router";
+import { useSelector } from 'react-redux';
 
 const NewUser = () => {
 
     const hist = useHistory()
+    const errMsg = useSelector((state) => state.errMsg)
     const dispatch = useDispatch()
     const [formErr, setFormErr] = useState({})
     const [processing, setProcessing] = useState(false);
@@ -49,6 +51,11 @@ const NewUser = () => {
                     }
                 }, (err) => {
                     console.log(err);
+                    setProcessing(false)
+                    dispatch(setErrMsg('Sorry, an error occured'))
+                    setTimeout(() => {
+                        dispatch(setErrMsg(''))
+                    }, 5000);
                 })
         }
     }
@@ -72,6 +79,7 @@ const NewUser = () => {
 
     return (
         <section className='mt-4 card'>
+            { errMsg && <div className="alert alert-danger">{errMsg}</div> }
             <div className="p-2 pb-1">
                 <h3>Form</h3>
             </div>
@@ -83,7 +91,7 @@ const NewUser = () => {
                         <label htmlFor="name">Name</label>
                     </div>
                     <div className="col-8">
-                        <input type="text" id='name' className='form-control' value={formData.name} onChange={handleInputs} />
+                        <input type="text" id='name' className={formErr.name ? 'form-control border-danger' : 'form-control'} value={formData.name} onChange={handleInputs} />
                         <p className='text-danger'>{ formErr.name }</p>
                     </div>
                 </div>
@@ -92,7 +100,7 @@ const NewUser = () => {
                         <label htmlFor="email">Email</label>
                     </div>
                     <div className="col-8">
-                        <input type="text" id='email' className='form-control' value={formData.email} onChange={handleInputs} />
+                        <input type="text" id='email' className={formErr.email ? 'form-control border-danger' : 'form-control'} value={formData.email} onChange={handleInputs} />
                         <p className='text-danger'>{ formErr.email }</p>
                     </div>
                 </div>
