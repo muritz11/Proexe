@@ -30,7 +30,7 @@ const NewUser = () => {
 
         if (Object.keys(valObj).length === 0) {
             setProcessing(true)
-            const url = "http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data"
+            const url = "https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data"
 
             axios.post(url, formData)
                 .then((resp) => {

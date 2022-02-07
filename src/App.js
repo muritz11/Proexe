@@ -16,7 +16,7 @@ function App() {
   const dispatch = useDispatch()
 
   const fetchUsers = async () => {
-    const resp = await axios.get("http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data").catch((err) => {
+    const resp = await axios.get("https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data").catch((err) => {
         console.log("Fetch err:", err);
     })
     dispatch(setUsers(resp.data));

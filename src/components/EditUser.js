@@ -38,7 +38,7 @@ const EditUser = () => {
 
         if (Object.keys(valObj).length === 0) {
             setProcessing(true)
-            const url = `http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${uid}`
+            const url = `https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${uid}`
             axios.put(url, {name: name, username: userName, email: email, address: {city: city}})
                 .then((resp) => {
                     if (resp.data) {
@@ -127,7 +127,7 @@ const EditUser = () => {
 
                         </div>
                     </div>
-                    
+
                     <div className='text-end'>
                         <Link to='/home' className='btn btn-outline-secondary me-3'>Cancel</Link>
                         <button className='btn btn-success'>

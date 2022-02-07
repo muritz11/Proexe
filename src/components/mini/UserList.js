@@ -20,7 +20,7 @@ const UserList = () => {
 
     const delUser = () => {
         setProcessing(true)
-        axios.delete(`http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${selUser.id}`)
+        axios.delete(`https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${selUser.id}`)
             .then((resp) => {
                 console.log(resp);
                 if (resp.status === 200) {
