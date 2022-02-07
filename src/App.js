@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -15,22 +15,20 @@ function App() {
   const successMsg = useSelector((state) => state.successMsg)
   const dispatch = useDispatch()
   const errMsg = useSelector((state) => state.errMsg)
-
-  // const fetchUsers = async () => {
-  //   const resp = await 
-  // }
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
+    setProcessing(true)
     axios.get("https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data")
       .then((resp) => {
         if (resp.status === 200) {
+          setProcessing(false)
           dispatch(setUsers(resp.data));
-        } else {
-          dispatch(setErrMsg('Sorry, an error occured.'))
         }
       })
       .catch((err) => {
         console.log("Fetch err:", err);
+        setProcessing(false)
         dispatch(setErrMsg('Sorry, an error occured. Could not fetch users'))
         setTimeout(() => {
           dispatch(setErrMsg(''))
@@ -48,7 +46,10 @@ function App() {
   return (
     <main className="p-md-5 p-4 py-5">
       <Router>
-        <h1>Dashboard</h1>
+        <h1>
+          Dashboard
+          { processing ? <span className="spinner-border spinner-grow-sm ms-3 text-muted"></span> : '' }  
+        </h1>
         { successMsg ? <div className="alert alert-success">{successMsg}</div> : '' }
         { errMsg && <div className="alert alert-danger">{errMsg}</div> }
         <Switch>

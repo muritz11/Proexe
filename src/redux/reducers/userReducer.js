@@ -17,7 +17,10 @@ export const userReducer = (state = initialState, {type, payload}) => {
             return state
     
         case UsersActionTypes.DELETE_USER:
-            state.users.splice(payload, 1)
+            const ind = state.users.findIndex((val) => {
+                return val.id === payload
+            })
+            state.users.splice(ind, 1)
             return state
     
         default:

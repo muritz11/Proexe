@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { deleteUser, selectUser } from '../../redux/actions/userActions';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { setErrMsg } from '../../redux/actions/successAction';
+import { setErrMsg, setSuccessMsg } from '../../redux/actions/successAction';
 
 
 const UserList = () => {
@@ -24,14 +24,21 @@ const UserList = () => {
         axios.delete(`https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${selUser.id}`)
             .then((resp) => {
                 if (resp.status === 200) {
-                    dispatch(deleteUser(selUser.id-1))
+                    dispatch(deleteUser(selUser.id))
                     setProcessing(false)
                     deleteModalHandler()
+                    dispatch(setSuccessMsg('User Deleted'))
+                    setTimeout(() => {
+                        dispatch(setSuccessMsg(''))
+                    }, 3000);
                 }
             }, (err) => {
                 setProcessing(false)
+                deleteModalHandler()
                 dispatch(setErrMsg('Sorry, an error occured'))
-                dispatch(setErrMsg(''))
+                setTimeout(() => {
+                    dispatch(setErrMsg(''))
+                }, 3000);
                 console.log("Delete Error:", err);
             })
     }
@@ -106,7 +113,7 @@ const UserList = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-white">
-                        {renderList}
+                        { users.length !== 0 ? renderList : <h4>We have no users yet</h4> }
                     </tbody>
                 </table>
             </div>
