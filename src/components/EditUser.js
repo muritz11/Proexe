@@ -2,45 +2,79 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from "axios";
-import { useParams } from 'react-router-dom';
-import { selectUser, removeSelectedUser } from '../redux/actions/userActions';
+import { useParams, Link } from 'react-router-dom';
+import { removeSelectedUser, updateUser } from '../redux/actions/userActions';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { setSuccessMsg } from '../redux/actions/successAction';
 
 const EditUser = () => {
 
     const user = useSelector((state) => state.selectedUser)
-    const users = useSelector((state) => state.allUsers.users)
     const { uid } = useParams()
     const dispatch = useDispatch()
     const [name, setName] = useState('')
     const [userName, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [city, setCity] = useState('')
-
-    const fetchUser = async () => {
-        // const resp = await axios.get(`http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${uid}`).then((resp) => {
-        //     if (resp.data) {
-        //         dispatch(selectUser(resp.data));
-        //     }
-        // }, (err) => {
-        //     console.log("Fetch err:", err);
-        // })
-        const filUser = users.filter((val) => {
-            return val.id === uid
-        })
-        console.log(filUser);
-        dispatch(selectUser(filUser))
-    }
+    const [formErr, setFormErr] = useState({})
+    const [processing, setProcessing] = useState(false);
+    const hist = useHistory()
 
     useEffect(() => {
-        if (uid && uid !== '') {
-            fetchUser()
-        }
+        setName(user.name)
+        setUserName(user.username)
+        setEmail(user.email)
+        setCity(user.address.city)
         return () => {
             dispatch(removeSelectedUser())
         }
-    }, [uid, dispatch]);
+    }, [uid, dispatch, user]);
     
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const valObj = validate({name: name, username: userName, email: email, city: city})
+        setFormErr(valObj)
+
+        if (Object.keys(valObj).length === 0) {
+            setProcessing(true)
+            const url = `http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${uid}`
+            axios.put(url, {name: name, username: userName, email: email, address: {city: city}})
+                .then((resp) => {
+                    if (resp.data) {
+                        console.log(resp.data);
+                        dispatch(updateUser({index: uid-1, data: resp.data}))
+                        dispatch(setSuccessMsg('User updated successfully'))
+                        setProcessing(false)
+                        hist.push('/home')
+                    }
+                }, (err) => {
+                    console.log(err);
+                })
+        }
+    }
+
+    const validate = (datas) => {
+        const errors = {}
+        if (!datas.name) {
+            errors.name = 'Name is required!'
+        } else if (!/^[a-zA-Z-' ]*$/.test(datas.name)) {
+            errors.name = 'Only letters and white space allowed!'
+        }
+
+        if (!datas.email) {
+            errors.email = 'Email is required!'
+        } else if (!/^\S+@\S+\.\S+$/.test(datas.email)) {
+            errors.email = 'Email is not valid!'
+        }
+        
+        if (/\s/.test(datas.username)) {
+            errors.username = 'Username cannot contain whitespaces!'
+        }
+
+        return errors
+    }
+
 
     return (
         <>
@@ -52,7 +86,7 @@ const EditUser = () => {
                     <h3>Edit Form: {user.name}</h3>
                 </div>
                 <hr />
-                <form action="" className='ms-5 me-2
+                <form onSubmit={handleSubmit} className='ms-5 me-2
                 p-4'>
                     <div className="form-group row mb-4">
                         <div className="col-4">
@@ -60,6 +94,8 @@ const EditUser = () => {
                         </div>
                         <div className="col-8">
                             <input type="text" id='name' className='form-control' value={name} onChange={(e) => {setName(e.target.value)}} />
+                            <p className='text-danger'>{ formErr.name }</p>
+
                         </div>
                     </div>
                     <div className="form-group row mb-4">
@@ -68,6 +104,8 @@ const EditUser = () => {
                         </div>
                         <div className="col-8">
                             <input type="text" id='username' className='form-control' value={userName} onChange={(e) => {setUserName(e.target.value)}} />
+                            <p className='text-danger'>{ formErr.username }</p>
+
                         </div>
                     </div>
                     <div className="form-group row mb-4">
@@ -76,6 +114,8 @@ const EditUser = () => {
                         </div>
                         <div className="col-8">
                             <input type="email" id='email' className='form-control' value={email} onChange={(e) => {setEmail(e.target.value)}} />
+                            <p className='text-danger'>{ formErr.email }</p>
+
                         </div>
                     </div>
                     <div className="form-group row mb-4">
@@ -84,14 +124,17 @@ const EditUser = () => {
                         </div>
                         <div className="col-8">
                             <input type="text" id='city' className='form-control' value={city} onChange={(e) => {setCity(e.target.value)}} />
+
                         </div>
                     </div>
                     <div className='text-end'>
-                        <button className='btn btn-outline-secondary me-3'>Cancel</button>
-                        <button className='btn btn-success'>Submit</button>
+                        <Link to='/home' className='btn btn-outline-secondary me-3'>Cancel</Link>
+                        <button className='btn btn-success'>
+                        { processing ? <span className="spinner-border spinner-border-sm"></span> : 'Update' }
+                        </button>
                     </div>
                 </form>
-            </section>
+                </section>
             }
         </>
       );

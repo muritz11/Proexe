@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/actions/userActions';
 import { Link } from 'react-router-dom';
 
 
@@ -7,6 +9,7 @@ const UserList = () => {
 
     const users = useSelector((state) => state.allUsers.users)
     const [ deleteModal, setDeleteModal ] = useState(false)
+    const dispatch = useDispatch()
 
     const deleteModalHandler = () => {
         setDeleteModal(!deleteModal)
@@ -31,7 +34,7 @@ const UserList = () => {
                 <td>{username}</td>
                 <td>{email}</td>
                 <td>{address.city}</td>
-                <td>
+                <td onClick={() => {dispatch(selectUser(user))}}>
                     <Link to={"/edit-user/"+id} className="btn btn-warning text-white"> Edit</Link>
                 </td>
                 <td onClick={deleteModalHandler}>
@@ -65,6 +68,7 @@ const UserList = () => {
             </div> 
             : '' }
 
+            {/* table */}
             <div className="table-responsive m-2 card pb-5">
                 <table className="table text-center">
                     <thead>

@@ -12,15 +12,19 @@ export const userReducer = (state = initialState, {type, payload}) => {
         case UsersActionTypes.ADD_USER:
             return { ...state, users: [ ...state.users, payload ] }
     
+        case UsersActionTypes.UPDATE_USER:
+            state.users[payload.index] = payload.data
+            return state
+    
         default:
             return state;
     }
 }
 
-export const selectedUserReducer = (state={}, {type, payload}) => {
+export const selectedUserReducer = (state='', {type, payload}) => {
     switch (type) {
         case UsersActionTypes.SELECTED_USER:
-            return { ...state, ...payload }
+            return payload
     
         case UsersActionTypes.REMOVE_SELECTED_USER:
             return {}

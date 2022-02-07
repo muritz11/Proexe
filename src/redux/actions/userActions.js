@@ -14,6 +14,13 @@ export const addUser = (user) => {
     }
 }
 
+export const updateUser = (data) => {
+    return {
+        type: UsersActionTypes.UPDATE_USER,
+        payload: data
+    }
+}
+
 
 export const selectUser = (user) => {
     return {

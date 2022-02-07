@@ -20,7 +20,7 @@ function App() {
         console.log("Fetch err:", err);
     })
     dispatch(setUsers(resp.data));
-}
+  }
 
 useEffect(() => {
     fetchUsers()

@@ -1,19 +1,18 @@
 import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import { setSuccessMsg } from '../redux/actions/successAction';
 import { addUser } from '../redux/actions/userActions';
+import { useHistory } from "react-router";
 
 const NewUser = () => {
 
-    const [formErr, setFormErr] = useState({})
-    // const users = useSelector((state) => state.allUsers.users)
-    const successMsg  = useSelector((state) => state.successMsg)
+    const hist = useHistory()
     const dispatch = useDispatch()
+    const [formErr, setFormErr] = useState({})
+    const [processing, setProcessing] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -30,25 +29,27 @@ const NewUser = () => {
         e.preventDefault()
 
         if (Object.keys(valObj).length === 0) {
+            setProcessing(true)
             const url = "http://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data"
 
             axios.post(url, formData)
-            .then((resp) => {
-                if (resp.data) {
-                    const newUser = {
-                        id: resp.data.id,
-                        name: resp.data.name,
-                        email: resp.data.email,
-                        username: '',
-                        address: {city: ''},
+                .then((resp) => {
+                    if (resp.data) {
+                        const newUser = {
+                            id: resp.data.id,
+                            name: resp.data.name,
+                            email: resp.data.email,
+                            username: '',
+                            address: {city: ''},
+                        }
+                        dispatch(addUser(newUser))
+                        dispatch(setSuccessMsg('User created successfully'))
+                        setProcessing(false)
+                        hist.push('/home')
                     }
-                    dispatch(addUser(newUser))
-                    // localStorage.setItem('users', JSON.stringify(users))
-                    dispatch(setSuccessMsg('User Created'))
-                }
-            }, (err) => {
-                console.log(err);
-            })
+                }, (err) => {
+                    console.log(err);
+                })
         }
     }
 
@@ -71,7 +72,6 @@ const NewUser = () => {
 
     return (
         <section className='mt-4 card'>
-            { successMsg ? <Redirect to="/home"></Redirect> : '' }
             <div className="p-2 pb-1">
                 <h3>Form</h3>
             </div>
@@ -98,7 +98,9 @@ const NewUser = () => {
                 </div>
                 <div className='text-end'>
                     <Link to='/home' className='btn btn-outline-secondary me-3'>Cancel</Link>
-                    <button className='btn btn-success'>Submit</button>
+                    <button className='btn btn-success'>
+                        { processing ? <span className="spinner-border"></span> : 'Submit' }
+                    </button>
                 </div>
             </form>
         </section>
