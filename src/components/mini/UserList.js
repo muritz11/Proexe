@@ -113,7 +113,7 @@ const UserList = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-white">
-                        { users.length !== 0 ? renderList : <h4>We have no users yet</h4> }
+                        { users.length !== 0 ? renderList : <tr><td>We have no users yet</td></tr> }
                     </tbody>
                 </table>
             </div>

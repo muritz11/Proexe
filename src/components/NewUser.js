@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 const NewUser = () => {
 
     const hist = useHistory()
+    const users = useSelector((state) => state.allUsers.users)
     const errMsg = useSelector((state) => state.errMsg)
     const dispatch = useDispatch()
     const [formErr, setFormErr] = useState({})
@@ -38,11 +39,12 @@ const NewUser = () => {
                 .then((resp) => {
                     if (resp.data) {
                         const newUser = {
-                            id: resp.data.id,
+                            id: users.length+1,
                             name: resp.data.name,
                             email: resp.data.email,
                             username: '',
                             address: {city: ''},
+                            fake: true
                         }
                         dispatch(addUser(newUser))
                         dispatch(setSuccessMsg('User created successfully'))

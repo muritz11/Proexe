@@ -22,6 +22,10 @@ const EditUser = () => {
     const [processing, setProcessing] = useState(false);
     const hist = useHistory()
 
+    if (Object.keys(user).length === 0) {
+        hist.push('/home')
+    }
+    
     useEffect(() => {
         setName(user.name)
         setUserName(user.username)
@@ -37,19 +41,26 @@ const EditUser = () => {
         const valObj = validate({name: name, username: userName, email: email, city: city})
         setFormErr(valObj)
 
+
         if (Object.keys(valObj).length === 0) {
             setProcessing(true)
-            const url = `https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${uid}`
+            let url
+            if (user.fake) {
+                url = `https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/1`
+            } else {
+                url = `https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${uid}`                
+            }
             axios.put(url, {name: name, username: userName, email: email, address: {city: city}})
                 .then((resp) => {
                     if (resp.data) {
-                        dispatch(updateUser({index: uid-1, data: resp.data}))
+                        dispatch(updateUser({index: user.id, data: {id: user.id, name: name, username: userName, email: email, address: {city: city}}}))
+                        console.log(resp.data)
                         dispatch(setSuccessMsg('User updated successfully'))
                         setProcessing(false)
                         hist.push('/home')
                     }
                 }, (err) => {
-                    console.log(err);
+                    console.log(err.response);
                     dispatch(setErrMsg('Sorry, an error occured'))
                     dispatch(setErrMsg(''))
                     setProcessing(false)
