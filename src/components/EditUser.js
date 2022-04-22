@@ -96,52 +96,30 @@ const EditUser = () => {
             {Object.keys(user).length === 0 ? 
             <div>Loading...</div>
             :
-            <section className='mt-4 card'>
+            <section className='mt-4 form-w br-12 m-auto shad p-4'>
                 { errMsg && <div className="alert alert-danger">{errMsg}</div> }
                 <div className="p-2 pb-1">
-                    <h3>Edit Form: {user.name}</h3>
+                    <h3>Update user</h3>
                 </div>
-                <hr />
-                <form onSubmit={handleSubmit} className='ms-5 me-2
-                p-4'>
-                    <div className="form-group row mb-4">
-                        <div className="col-4">
-                            <label htmlFor="name">Name</label>
-                        </div>
-                        <div className="col-8">
-                            <input type="text" id='name' className={formErr.name ? 'form-control border-danger' : 'form-control'} value={name} onChange={(e) => {setName(e.target.value)}} />
-                            <p className='text-danger'>{ formErr.name }</p>
-
-                        </div>
+                <form onSubmit={handleSubmit} className='mx-md-5 m-auto'>
+                    <div className="form-group mb-4">
+                        <label htmlFor="name">Name</label>
+                        <input type="text" id='name' className={formErr.name ? 'form-control border-danger' : 'form-control'} value={name} onChange={(e) => {setName(e.target.value)}} />
+                        <p className='text-danger'>{ formErr.name }</p>
                     </div>
-                    <div className="form-group row mb-4">
-                        <div className="col-4">
-                            <label htmlFor="username">Username</label>
-                        </div>
-                        <div className="col-8">
-                            <input type="text" id='username' className={formErr.username ? 'form-control border-danger' : 'form-control'} value={userName} onChange={(e) => {setUserName(e.target.value)}} />
-                            <p className='text-danger'>{ formErr.username }</p>
-
-                        </div>
+                    <div className="form-group mb-4">
+                        <label htmlFor="username">Username</label>
+                        <input type="text" id='username' className={formErr.username ? 'form-control border-danger' : 'form-control'} value={userName} onChange={(e) => {setUserName(e.target.value)}} />
+                        <p className='text-danger'>{ formErr.username }</p>
                     </div>
-                    <div className="form-group row mb-4">
-                        <div className="col-4">
-                            <label htmlFor="email">Email</label>
-                        </div>
-                        <div className="col-8">
-                            <input type="email" id='email' className={formErr.email ? 'form-control border-danger' : 'form-control'} value={email} onChange={(e) => {setEmail(e.target.value)}} />
-                            <p className='text-danger'>{ formErr.email }</p>
-
-                        </div>
+                    <div className="form-group mb-4">
+                        <label htmlFor="email">Email</label>
+                        <input type="email" id='email' className={formErr.email ? 'form-control border-danger' : 'form-control'} value={email} onChange={(e) => {setEmail(e.target.value)}} />
+                        <p className='text-danger'>{ formErr.email }</p>
                     </div>
-                    <div className="form-group row mb-4">
-                        <div className="col-4">
-                            <label htmlFor="city">City</label>
-                        </div>
-                        <div className="col-8">
-                            <input type="text" id='city' className='form-control' value={city} onChange={(e) => {setCity(e.target.value)}} />
-
-                        </div>
+                    <div className="form-group mb-4">
+                        <label htmlFor="city">City</label>
+                        <input type="text" id='city' className='form-control' value={city} onChange={(e) => {setCity(e.target.value)}} />
                     </div>
 
                     <div className='text-end'>

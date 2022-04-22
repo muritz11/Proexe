@@ -25,7 +25,26 @@
   animation-duration: .5s;
 }
 
+.br-12{
+  border-radius: 12px;
+}
 
+
+.shad{
+  box-shadow:0 .5rem .3rem rgba(0,0,0,.15)!important;
+}
+
+.form-w{
+  width: 50%;
+}
+
+@media screen and (max-width: 768px) {
+
+  .form-w{
+    width: 90%;
+  }
+
+}
 /********************
 *key frames
 ********************/

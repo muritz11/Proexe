@@ -47,7 +47,7 @@ function App() {
   return (
     <main className="p-md-5 p-4 py-5">
       <Router>
-        <h1>
+        <h1 className="mx-3 mb-5">
           Dashboard
           { processing ? <span className="spinner-border spinner-grow-sm ms-3 text-muted"></span> : '' }  
         </h1>

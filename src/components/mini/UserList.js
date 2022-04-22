@@ -22,7 +22,13 @@ const UserList = () => {
 
     const delUser = () => {
         setProcessing(true)
-        usersApi.deleteUser(selUser.id)
+        let uid
+        if (selUser.fake) {
+            uid = 1
+        } else {
+            uid = selUser.id
+        }
+        usersApi.deleteUser(uid)
             .then((resp) => {
                 if (resp.status === 200) {
                     dispatch(deleteUser(selUser.id))
