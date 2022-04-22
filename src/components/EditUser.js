@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from "axios";
+import UsersApi from "../api/userRequests";
 import { useParams, Link } from 'react-router-dom';
 import { removeSelectedUser, updateUser } from '../redux/actions/userActions';
 import { useSelector } from 'react-redux';
@@ -21,6 +21,7 @@ const EditUser = () => {
     const [formErr, setFormErr] = useState({})
     const [processing, setProcessing] = useState(false);
     const hist = useHistory()
+    const usersApi = new UsersApi()
 
     if (Object.keys(user).length === 0) {
         hist.push('/home')
@@ -44,13 +45,13 @@ const EditUser = () => {
 
         if (Object.keys(valObj).length === 0) {
             setProcessing(true)
-            let url
+            let fetchId
             if (user.fake) {
-                url = `https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/1`
+                fetchId = 1
             } else {
-                url = `https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${uid}`                
+                fetchId = uid                
             }
-            axios.put(url, {name: name, username: userName, email: email, address: {city: city}})
+            usersApi.updateUser(fetchId, {name: name, username: userName, email: email, address: {city: city}})
                 .then((resp) => {
                     if (resp.data) {
                         dispatch(updateUser({index: user.id, data: {id: user.id, name: name, username: userName, email: email, address: {city: city}}}))

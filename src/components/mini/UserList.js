@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { deleteUser, selectUser } from '../../redux/actions/userActions';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import UsersApi from "../../api/userRequests";
 import { setErrMsg, setSuccessMsg } from '../../redux/actions/successAction';
 
 
@@ -14,6 +14,7 @@ const UserList = () => {
     const [ deleteModal, setDeleteModal ] = useState(false)
     const [processing, setProcessing] = useState(false);
     const dispatch = useDispatch()
+    const usersApi = new UsersApi()
 
     const deleteModalHandler = () => {
         setDeleteModal(!deleteModal)
@@ -21,7 +22,7 @@ const UserList = () => {
 
     const delUser = () => {
         setProcessing(true)
-        axios.delete(`https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${selUser.id}`)
+        usersApi.deleteUser(selUser.id)
             .then((resp) => {
                 if (resp.status === 200) {
                     dispatch(deleteUser(selUser.id))
@@ -32,7 +33,7 @@ const UserList = () => {
                         dispatch(setSuccessMsg(''))
                     }, 3000);
                 }
-            }, (err) => {
+            }).catch((err) => {
                 setProcessing(false)
                 deleteModalHandler()
                 dispatch(setErrMsg('Sorry, an error occured'))

@@ -6,7 +6,7 @@ import Dashboard from "./components/Dashboard";
 import EditUser from "./components/EditUser";
 import NewUser from "./components/NewUser";
 import { setUsers } from "./redux/actions/userActions";
-import axios from "axios";
+import UsersApi from "./api/userRequests";
 import { setErrMsg, setSuccessMsg } from "./redux/actions/successAction";
 
 
@@ -16,10 +16,11 @@ function App() {
   const dispatch = useDispatch()
   const errMsg = useSelector((state) => state.errMsg)
   const [processing, setProcessing] = useState(false);
+  const usersApi = new UsersApi()
 
   useEffect(() => {
     setProcessing(true)
-    axios.get("https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data")
+    usersApi.getAllUsers()
       .then((resp) => {
         if (resp.status === 200) {
           setProcessing(false)
@@ -40,7 +41,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       dispatch(setSuccessMsg(''))
-    }, 3000);
+    }, 10000);
   }, [successMsg, dispatch])
 
   return (

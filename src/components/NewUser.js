@@ -1,4 +1,4 @@
-import axios from 'axios';
+import UsersApi from '../api/userRequests';
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -14,6 +14,7 @@ const NewUser = () => {
     const users = useSelector((state) => state.allUsers.users)
     const errMsg = useSelector((state) => state.errMsg)
     const dispatch = useDispatch()
+    const usersApi = new UsersApi()
     const [formErr, setFormErr] = useState({})
     const [processing, setProcessing] = useState(false);
     const [formData, setFormData] = useState({
@@ -33,19 +34,19 @@ const NewUser = () => {
 
         if (Object.keys(valObj).length === 0) {
             setProcessing(true)
-            const url = "https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data"
 
-            axios.post(url, formData)
+            usersApi.createUser(formData)
                 .then((resp) => {
                     if (resp.data) {
                         const newUser = {
                             id: users.length+1,
-                            name: resp.data.name,
-                            email: resp.data.email,
+                            name: resp.data.params.name,
+                            email: resp.data.params.email,
                             username: '',
                             address: {city: ''},
                             fake: true
                         }
+                        console.log(resp.data)
                         dispatch(addUser(newUser))
                         dispatch(setSuccessMsg('User created successfully'))
                         setProcessing(false)
