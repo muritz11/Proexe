@@ -16,9 +16,9 @@ function App() {
   const dispatch = useDispatch()
   const errMsg = useSelector((state) => state.errMsg)
   const [processing, setProcessing] = useState(false);
-  const usersApi = new UsersApi()
-
+  
   useEffect(() => {
+    const usersApi = new UsersApi()
     setProcessing(true)
     usersApi.getAllUsers()
       .then((resp) => {
